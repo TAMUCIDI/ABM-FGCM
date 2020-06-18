@@ -4,6 +4,8 @@ from copy import deepcopy
 from networkx import to_numpy_matrix
 from sys import maxsize
 
+debug = False
+
 class InputTypeError(Exception) :
 
     def __init__(self,message,errors) :
@@ -28,8 +30,6 @@ class simulation:
         1) FCM object
         2) a dictionary with key as concept and value as a tuple of size 2
         '''
-
-
         ''' an fcm object '''
         self.fcm = deepcopy(FCM)
         self.numSteps = maxsize
@@ -63,7 +63,6 @@ class simulation:
                 self.stableDict[concept] = threshold
 
     def steps(self,numsteps):
-
         '''
         A function which takes input as a number of steps
         '''
@@ -77,7 +76,6 @@ class simulation:
             return
 
     def changeTransferFunction(self,function):
-
         '''
         changeTransferFunction
         Parameters: function (function with 1 argument): a function that takes one argument and maintains values in range [-1,1]
@@ -163,8 +161,8 @@ class simulation:
             oldValues = newValues
 
             count += 1
-
-        self._output_results(newValues,count)
+        if debug:
+            self._output_results(newValues,count)
         if count == self.numSteps:
             print ("Max number of steps used. Values may not be stable")
         return returnList

@@ -4,7 +4,7 @@ import itertools as it
 from functools import reduce
 import FCM
 
-debug=0
+debug=2
 
 '''
 Main
@@ -73,16 +73,6 @@ def createSim(fcm, stableList):
 		# threshold = 0.001
 		sim.stabilize(element, .001)
 	return sim
-
-# def newEdgeDict(edgeDict,config):
-# 	returnDict = {}
-# 	count = 0
-    
-# 	for key in edgeDict:
-# 		returnDict[(key[0],key[1])] = edgeDict[key[0],key[1]][int(config[count])]        
-# 		count += 1
-        
-# 	return returnDict
         
 '''
 Run the simulation and return the final concept values
@@ -109,7 +99,7 @@ def getResults(simResults, minMaxList, stableList):
     	#add the 3rd degree interacitons to the list
 	for element in result3:
 		interactions.append(prod(element))
-	if debug==2:
+	if debug==1:
 		print ('The interaction list is: ', interactions)
 
 	returnDict = {}    
@@ -120,7 +110,7 @@ def getResults(simResults, minMaxList, stableList):
 		if debug==1:
 			print ('Element is: ', element)
 			print ('Element value is: ', simResults[element])
-	if debug==2:
+	if debug==1:
 		print ('After all multplication Value is:', returnDict)
 
 	return returnDict
@@ -130,56 +120,4 @@ Will get the product of all elements in the iterable. Used for the diffferent co
 '''
 def prod(iterable):
 	return reduce(operator.mul, iterable, 1)
-
-'''
-tupleToString
-takes a tuple of strings and returns is as a single string for writing
-'''
-def tupleToString(element):
-	returnString = ''
-	first = True
-	for i in range(0,len(element)):
-		if first:
-			returnString += element[i]
-			first = False
-		else:
-			returnString += '&'+element[i]
-	return returnString
-
-	
-	
-
-	# if debug==2:
-	# 	print("=================")
-	# 	print('sumDict', sumDict)
-	# if debug==1:
-	# 	print ('Number of results processed was: ', count)
-
-	# header = 'index'
-	# #create header for edges using itertools
-	# head2 = list(it.combinations(inOrderEdges,2))#2nd degree
-	# head3 = list(it.combinations(inOrderEdges,3))#3rd degree
-	# # print('head2',head2,'head3',head3)
-	# for element in inOrderEdges:
-	# 	header = header + ',,,' + element #only one not a set of tuples
-         
-	# for element in head2:
-	# 	header = header + ',,' + tupleToString(element)
-         
-	# for element in head3:
-	# 	header = header + ',' + tupleToString(element)
-	# header = header + '\n'
-
-	# f = open(outFile,'w')
-	# f.write(header)
-
-	# for key in sumDict:
-	# 	writeLine = '~'
-	# 	writeLine += key
-	# 	for element in sumDict[key]:
-	# 		writeLine = writeLine + ',' + str(element)
-	# 	writeLine += '\n'
-	# 	f.write(writeLine)
-
-	# f.close()
 

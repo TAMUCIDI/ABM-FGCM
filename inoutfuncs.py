@@ -1,7 +1,7 @@
-import pathos
 import sys
 sys.path.insert(1, 'FCM')
 import FCM
+import itertools as it
 
 '''
 getGreyMap
@@ -70,3 +70,47 @@ def createInitialFCM(nodeDict, edgeDict):
 ## Edit: Use first value in the range.
 		fcm.add_edge(key[0], key[1], edgeDict[key[0],key[1]][0])
 	return fcm
+
+'''
+tupleToString
+takes a tuple of strings and returns is as a single string for writing
+'''
+def tupleToString(element):
+	returnString = ''
+	first = True
+	for i in range(0,len(element)):
+		if first:
+			returnString += element[i]
+			first = False
+		else:
+			returnString += '&'+element[i]
+	return returnString
+
+def outFCM(outFile, sumDict, inOrderEdges):
+	header = 'index'
+	#create header for edges using itertools
+	head2 = list(it.combinations(inOrderEdges,2))#2nd degree
+	head3 = list(it.combinations(inOrderEdges,3))#3rd degree
+	for element in inOrderEdges:
+		header = header + ',,,' + element #only one not a set of tuples
+         
+	for element in head2:
+		header = header + ',,' + tupleToString(element)
+         
+	for element in head3:
+		header = header + ',' + tupleToString(element)
+
+	header = header + '\n'
+
+	f = open(outFile,'w')
+	f.write(header)
+
+	for key in sumDict:
+		writeLine = '~'
+		writeLine += key
+		for element in sumDict[key]:
+			writeLine = writeLine + ',' + str(element)
+		writeLine += '\n'
+		f.write(writeLine)
+
+	f.close()
