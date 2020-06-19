@@ -1,7 +1,39 @@
+# FCM
 import sys
 sys.path.insert(1, 'FCM')
 import FCM
 import itertools as it
+# ABM
+import geopandas as gpd
+import pandas
+import matplotlib.pyplot as plt
+import csv
+import numpy as np
+#Read Bangalore data
+def setupcitydata(citygeojson, trafficcsv):
+	city=gpd.read_file(citygeojson)
+	#Add Neigbors, insert new column: locality_neighbors
+	for index, row in city.iterrows():
+		neighbors = city[city.geometry.touches(row['geometry'])].wardName.tolist() 
+		city.at[index, "locality_neighbors"] = ", ".join(neighbors)
+	#Insert new column: locality_density
+	density = city['POP_TOTAL']/sum(city['POP_TOTAL'])
+	city['locality_density']=density
+
+	CD = city[['locality_density', 'geometry', 'locality_neighbors']]
+	CD = CD.assign(locality_name=city['wardName'])
+	CD = CD.assign(locality_id=city['wardNo'].astype(int))
+	# Can't use "ignore_index=True" in sort_values
+	CD=CD.sort_values(by=['locality_id'])
+	
+	print(CD.tail(10))
+	CarProb=[]
+	with open(trafficcsv, 'r') as file:
+		data =list(csv.reader(file, delimiter=','))
+		CarProb = np.array(data[0:], dtype=np.float)
+	
+	print("City Data setup complete")	
+	return CD, CarProb
 
 '''
 getGreyMap
