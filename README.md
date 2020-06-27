@@ -1,5 +1,6 @@
 # ABM-FGCM
 ## Model Flow
+![image](https://github.com/Jian-SiangHong1038/ABM-FGCM/blob/master/Model%20Flow.png)
 ## Platform
 TAMU HPRC Terra
 
