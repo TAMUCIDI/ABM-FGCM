@@ -14,19 +14,27 @@ def setupcitydata(citygeojson, trafficcsv):
 	city=gpd.read_file(citygeojson)
 	#Add Neigbors, insert new column: locality_neighbors
 	for index, row in city.iterrows():
+		# neighbors = city[city.geometry.touches(row['geometry'])].COUNTY.tolist() 
 		neighbors = city[city.geometry.touches(row['geometry'])].wardName.tolist() 
 		city.at[index, "locality_neighbors"] = ", ".join(neighbors)
 	#Insert new column: locality_density
+	# density = city['Population']/sum(city['Population'])
 	density = city['POP_TOTAL']/sum(city['POP_TOTAL'])
 	city['locality_density']=density
 
-	CD = city[['locality_density', 'geometry', 'locality_neighbors']]
+	## Set Covid19-cases
+	Covid_density = city['POP_ST']/city['POP_TOTAL']
+	city['cases_density']=Covid_density
+
+	CD = city[['locality_density', 'cases_density', 'geometry', 'locality_neighbors']]
+	# CD = CD.assign(locality_name=city['COUNTY'])
+	# CD = CD.assign(locality_id=city['id'].astype(int))
 	CD = CD.assign(locality_name=city['wardName'])
 	CD = CD.assign(locality_id=city['wardNo'].astype(int))
 	# Can't use "ignore_index=True" in sort_values
-	CD=CD.sort_values(by=['locality_id'])
+	CD=CD.sort_values(by=['cases_density'])
 	
-	print(CD.tail(10))
+	# print(CD.head(10))
 	CarProb=[]
 	with open(trafficcsv, 'r') as file:
 		data =list(csv.reader(file, delimiter=','))
@@ -72,7 +80,6 @@ def getGreyMap(inFile):
 					if not content:
 						break
 					nodes[content[0].strip(':')] = float(content[1])
-                
                 
 		if content:#reach edge lists
 			inOrder = []	

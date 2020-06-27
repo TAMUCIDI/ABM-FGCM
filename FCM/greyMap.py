@@ -12,20 +12,23 @@ pass the file to get grey map to get the set up for the fcm
 create the initial fcm
 figure out number of processors and make a pool with that many processors
 '''
-def runFCM(fcm, num, k, edgeDict,stableList):
-	config, minMaxList = fcmConfiguration(num, k)
-	testFCM, updatedEdgeDict = newFCM(fcm, edgeDict, config)
-	if debug==1:
-		print ('first time update: ', updatedEdgeDict)
-	sim = createSim(testFCM, stableList)
+# def runFCM(fcm, num, k, edgeDict,stableList):
+def runFCM(fcm,stableList):
+	# fcm.set_value('C1', 0.0)
+	# print("edge:",fcm.getEdges())
+	# config, minMaxList = fcmConfiguration(num, k)
+	# testFCM, updatedEdgeDict = newFCM(fcm, edgeDict, config)
+	# if debug==1:
+	# 	print ('first time update: ', updatedEdgeDict)
+	sim = createSim(fcm, stableList)
+	# sim = createSim(fcm, stableList)
 	res = runSims(sim)
-
-	products = getResults(res, minMaxList, stableList)
-	if debug==1:
-		print ('Products are: ', products)
-		print ('MinMax list is: ', minMaxList) 
-	return products
-	# return (res, updatedEdgeDict)
+	# products = getResults(res, minMaxList, stableList)
+	# if debug==1:
+	# 	print ('Products are: ', products)
+	# 	print ('MinMax list is: ', minMaxList) 
+	# return products
+	return res
 
 '''
 fcmConfiguration

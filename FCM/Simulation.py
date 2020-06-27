@@ -3,6 +3,10 @@ from FCM import *
 from copy import deepcopy
 from networkx import to_numpy_matrix
 from sys import maxsize
+import math
+
+def sigmoid(x):
+  return 1 / (1 + math.exp(-x))
 
 debug = False
 
@@ -150,10 +154,11 @@ class simulation:
         oldValues = []
         nodeOrder = self.fcm._fcm_graph.nodes() #edge matrix is in order of nodes
         for node in nodeOrder:
-                oldValues.append(self.fcm.concepts()[node])
+            oldValues.append(self.fcm.concepts()[node])
 
         while count < self.numSteps:
             returnList.append(self._makeDict(oldValues))
+            # print(count, "times edge:", self.fcm.getEdges())
             newValues = self._updateNodes(oldValues, c)
             if self._is_Stable(oldValues,newValues):
                 break
