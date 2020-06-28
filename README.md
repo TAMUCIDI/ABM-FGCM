@@ -41,6 +41,12 @@ python main.py
 ## Output File
 file at `/SimulationResults/OutputData/`
 
+1. CP (short for City Population): This pandas dataframe maintains the entire state of the city, including health of each agent and its permanent list of contacts. It can be accessed by tests as well as intervention policies. A row of CP is an agent and a column is an attribute, e.g., "id".
+
+2. TestingHistory: This is a numpy array which maintain the test status of each agent (row) on each day (column). Agents that test positive on a day are marked +1, those that test negative are marked -1, and those that are not tested are marked 0.
+
+3. InterventionHistory: This is a list which contains all the interventions applied till date.
+
 ## References
 1. [ANALYZING AND SIMPLIFYING MODEL UNCERTAINTY IN FUZZY COGNITIVE MAPS](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8247923 "Title") 
 2. [How Reliable are Test Numbers for Revealing the COVID-19 Ground Truth and Applying Interventions?](https://arxiv.org/abs/2004.12782 "Title")
