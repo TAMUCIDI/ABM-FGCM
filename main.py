@@ -22,8 +22,8 @@ from interventions import InterventionQuarantine
 
 if __name__ == '__main__':
     #Read city data using function setupcitydata available in inoutfuncs
-    CD, CarProb=setupcitydata('InputData/city.geojson', 'InputData/car-prob.csv')
-    # CD, CarProb=setupcitydata('InputData/TX_Counties.geojson', 'InputData/TX_prob.csv')
+    #CD, CarProb=setupcitydata('InputData/city.geojson', 'InputData/car-prob.csv')
+    CD, CarProb=setupcitydata('InputData/TX_Counties.geojson', 'InputData/TX_prob.csv')
 
     ## Get FGCM
     fcm, k, edges, stableList, inOrderEdges = getGreyMap('InputData/testCase.txt') #fcm is the inital fcm(binary 0) and k is the number of edges
@@ -70,8 +70,8 @@ if __name__ == '__main__':
     ## covid and flu infected distributed uniformly
     InitFracLocalitiesCovid=0.1 # approx. fraction of localities with a single covid infection seed                                                               
     InitFracLocalitiesFlu=0.1 # approx. fraction of localities with a single flu infection seed                                                                   
-    CovidMaxPerLocality= 5
-    FluMaxPerLocality= 20
+    CovidMaxPerLocality= 0
+    FluMaxPerLocality= 0
 
     ## Seeding type 2: clustered seeding
     ## all covid infections placed in a single locality (locality_name="Cottonpete", locality_id=120)

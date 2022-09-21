@@ -14,23 +14,24 @@ def setupcitydata(citygeojson, trafficcsv):
 	city=gpd.read_file(citygeojson)
 	#Add Neigbors, insert new column: locality_neighbors
 	for index, row in city.iterrows():
-		# neighbors = city[city.geometry.touches(row['geometry'])].COUNTY.tolist() 
-		neighbors = city[city.geometry.touches(row['geometry'])].wardName.tolist() 
+		neighbors = city[city.geometry.touches(row['geometry'])].COUNTY.tolist() 
+		#neighbors = city[city.geometry.touches(row['geometry'])].wardName.tolist() 
 		city.at[index, "locality_neighbors"] = ", ".join(neighbors)
 	#Insert new column: locality_density
-	# density = city['Population']/sum(city['Population'])
-	density = city['POP_TOTAL']/sum(city['POP_TOTAL'])
+	density = city['Population']/sum(city['Population'])
+	#density = city['POP_TOTAL']/sum(city['POP_TOTAL'])
 	city['locality_density']=density
 
 	## Set Covid19-cases
-	Covid_density = city['POP_ST']/city['POP_TOTAL']
+	#Covid_density = city['POP_ST']/city['POP_TOTAL']
+	Covid_density = city['Covid19_Cases']/city['Population']
 	city['cases_density']=Covid_density
 
 	CD = city[['locality_density', 'cases_density', 'geometry', 'locality_neighbors']]
-	# CD = CD.assign(locality_name=city['COUNTY'])
-	# CD = CD.assign(locality_id=city['id'].astype(int))
-	CD = CD.assign(locality_name=city['wardName'])
-	CD = CD.assign(locality_id=city['wardNo'].astype(int))
+	CD = CD.assign(locality_name=city['COUNTY'])
+	CD = CD.assign(locality_id=city['id'].astype(int))
+	#CD = CD.assign(locality_name=city['wardName'])
+	#CD = CD.assign(locality_id=city['wardNo'].astype(int))
 	# Can't use "ignore_index=True" in sort_values
 	CD=CD.sort_values(by=['cases_density'])
 	
