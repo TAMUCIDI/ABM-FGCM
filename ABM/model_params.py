@@ -15,7 +15,7 @@ parameters = {'I0':0.01, 'ptrans':0.25, 'progression_period':3,
               'progression_sd':2, 'population':10, 'interactions':12,
               'reinfection_rate':0.00, 'death_rate':0.0193, 
               'recovery_days':21, 'recovery_sd':7, 'severe':0.18, 'steps':90,
-              'Days':50, 'Population':10000, 'Iterations':1,
+              'Days':360, 'Population':10000, 'Iterations':30,
               'TestingBudget':50, #tests per day
               'FalseNegative':0.0, #false nagative prob for each test 
             }
